@@ -1,0 +1,197 @@
+/*
+ *  Hi there, have a look at my source files here:
+ *  https://github.com/stefanRitter/
+ *
+ */
+/* Global reset
+ * http://meyerweb.com/eric/tools/css/reset/
+ **************************************************************** */
+/* line 14, ../sass/_base.sass */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* line 22, ../sass/_base.sass */
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+/* SASS placeholder selector clearfix 
+ * http://sasstwo.codeschool.com/
+ **************************************************************** */
+/* line 31, ../sass/_base.sass */
+.clearfix {
+  zoom: 1;
+}
+/* line 34, ../sass/_base.sass */
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: table;
+}
+/* line 38, ../sass/_base.sass */
+.clearfix:after {
+  clear: both;
+}
+
+/* line 43, ../sass/_base.sass */
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* line 19, ../sass/application.sass */
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* line 24, ../sass/application.sass */
+#loading {
+  visibility: hidden;
+  position: fixed;
+  top: 45%;
+  width: 100%;
+  text-align: center;
+}
+/* line 30, ../sass/application.sass */
+#loading img {
+  display: inline-block;
+  height: 3em;
+}
+
+/* line 35, ../sass/application.sass */
+.mainheader {
+  position: fixed;
+  top: 3%;
+  left: 2%;
+  width: 44%;
+  text-align: left;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 0.5% 1% 1% 1%;
+}
+/* line 44, ../sass/application.sass */
+.mainheader h1 {
+  font: bold 2.6em/1.3em Helvetica, sans-serif;
+}
+/* line 46, ../sass/application.sass */
+.mainheader h1 span {
+  display: inline-block;
+  font-size: 0.9em;
+  -webkit-transform: translate(0, 0.03em);
+  -moz-transform: translate(0, 0.03em);
+  -ms-transform: translate(0, 0.03em);
+  -o-transform: translate(0, 0.03em);
+  transform: translate(0, 0.03em);
+}
+/* line 50, ../sass/application.sass */
+.mainheader h1 strong {
+  font-size: 1.3em;
+  font-variant: small-caps;
+}
+/* line 54, ../sass/application.sass */
+.mainheader h2 {
+  font: 1.6em/1.1em "EB Garamond", serif;
+}
+/* line 56, ../sass/application.sass */
+.mainheader h2 em {
+  font-style: italic;
+}
+
+/* line 60, ../sass/application.sass */
+.entries {
+  position: fixed;
+  top: 0;
+  right: 3%;
+  padding: 0.2em 1em;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.9);
+  -moz-border-radius-bottomright: 1.6em;
+  -webkit-border-bottom-right-radius: 1.6em;
+  border-bottom-right-radius: 1.6em;
+  -moz-border-radius-bottomleft: 1.6em;
+  -webkit-border-bottom-left-radius: 1.6em;
+  border-bottom-left-radius: 1.6em;
+}
+/* line 71, ../sass/application.sass */
+.entries a {
+  color: white;
+  text-decoration: none;
+}
+/* line 74, ../sass/application.sass */
+.entries ul {
+  list-style: none;
+}
+/* line 77, ../sass/application.sass */
+.entries ul li {
+  font: 1em Helvetica, serif;
+  margin: 0.5em 0;
+  width: 8em;
+  overflow: hidden;
+}
+/* line 82, ../sass/application.sass */
+.entries ul li img {
+  width: 100%;
+  opacity: 0.5;
+}
+/* line 85, ../sass/application.sass */
+.entries ul li img.active {
+  opacity: 1;
+}
+/* line 87, ../sass/application.sass */
+.entries ul li img:hover {
+  opacity: 1;
+}
+/* line 90, ../sass/application.sass */
+.entries ul li:last-child {
+  display: block;
+  height: 0.9em;
+  background: center url(../images/arrow.png) no-repeat;
+  background-size: auto 100%;
+}
+
+/* line 96, ../sass/application.sass */
+.hoverDownUp {
+  -webkit-transform: translate(0, -87%);
+  -moz-transform: translate(0, -87%);
+  -ms-transform: translate(0, -87%);
+  -o-transform: translate(0, -87%);
+  transform: translate(0, -87%);
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+/* line 100, ../sass/application.sass */
+.hoverDownUp:hover {
+  -webkit-transform: translate(0, 0);
+  -moz-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0);
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+/* line 105, ../sass/application.sass */
+.mainfooter {
+  clear: both;
+  position: absolute;
+  bottom: 0;
+  margin: 0% auto 2% 3%;
+  font: italic 1em "EB Garamond", serif;
+}
+/* line 112, ../sass/application.sass */
+.mainfooter a {
+  color: black;
+}
