@@ -120,37 +120,33 @@ canvas {
   -moz-border-radius-bottomleft: 1.6em;
   -webkit-border-bottom-left-radius: 1.6em;
   border-bottom-left-radius: 1.6em;
-}
-/* line 71, ../sass/application.sass */
-.entries a {
   color: white;
-  text-decoration: none;
 }
-/* line 74, ../sass/application.sass */
+/* line 72, ../sass/application.sass */
 .entries ul {
   list-style: none;
 }
-/* line 77, ../sass/application.sass */
+/* line 75, ../sass/application.sass */
 .entries ul li {
   font: 1em Helvetica, serif;
   margin: 0.5em 0;
   width: 8em;
   overflow: hidden;
 }
-/* line 82, ../sass/application.sass */
+/* line 80, ../sass/application.sass */
 .entries ul li img {
   width: 100%;
   opacity: 0.5;
 }
-/* line 85, ../sass/application.sass */
+/* line 83, ../sass/application.sass */
 .entries ul li img.active {
   opacity: 1;
 }
-/* line 87, ../sass/application.sass */
+/* line 85, ../sass/application.sass */
 .entries ul li img:hover {
   opacity: 1;
 }
-/* line 90, ../sass/application.sass */
+/* line 88, ../sass/application.sass */
 .entries ul li:last-child {
   display: block;
   height: 0.9em;
@@ -158,7 +154,7 @@ canvas {
   background-size: auto 100%;
 }
 
-/* line 96, ../sass/application.sass */
+/* line 94, ../sass/application.sass */
 .hoverDownUp {
   -webkit-transform: translate(0, -87%);
   -moz-transform: translate(0, -87%);
@@ -170,7 +166,7 @@ canvas {
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
-/* line 100, ../sass/application.sass */
+/* line 98, ../sass/application.sass */
 .hoverDownUp:hover {
   -webkit-transform: translate(0, 0);
   -moz-transform: translate(0, 0);
@@ -183,7 +179,7 @@ canvas {
   transition: all 0.2s ease-in-out;
 }
 
-/* line 105, ../sass/application.sass */
+/* line 103, ../sass/application.sass */
 .mainfooter {
   clear: both;
   position: absolute;
@@ -191,7 +187,7 @@ canvas {
   margin: 0% auto 2% 3%;
   font: italic 1em "EB Garamond", serif;
 }
-/* line 112, ../sass/application.sass */
+/* line 110, ../sass/application.sass */
 .mainfooter a {
   color: black;
 }

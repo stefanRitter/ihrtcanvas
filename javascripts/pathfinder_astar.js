@@ -153,6 +153,7 @@
 			currentNode = currentNode.parentNode;
 		}
 
+        path.add(src); //add last point for explosion location
 		return path.list;
 	}
 

@@ -1,4 +1,8 @@
-
+/*
+ * 
+ *  this file is for testing application.js
+ *
+ */
 
 black = function (canvas) { "use strict";
 

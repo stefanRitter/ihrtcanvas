@@ -12,6 +12,29 @@
 
 	var loading, experimentManager;
 
+	// ******************************************************************************* Utils
+
+	function xhrGet(reqUri, callback, type) {
+
+		var caller = xhrGet.caller, xhr = new XMLHttpRequest();
+
+		xhr.open('GET', reqUri, true);
+		if (type) { xhr.responseType = type; }
+
+		xhr.onload = function () {
+			if (callback) {
+				try {
+					callback(xhr);
+				} catch (error) {
+					throw 'xhrGet failed: \n' + reqUri + '\nException: ' + error + '\nCaller: ' + caller + 
+					'\nResponse: ' + xhr.responseText;
+				}
+			}
+		};
+
+		xhr.send();
+	}
+
 	// ******************************************************************************* fadein fadeout
 
 	function fadein(element, ms, callback) {
@@ -143,6 +166,6 @@
 
 		setTimeout(function() {
 			navigation.className = navigation.className + " hoverDownUp";
-		}, 500);
+		}, 800);
 	};
 }(this));

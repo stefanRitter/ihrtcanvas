@@ -14,10 +14,6 @@ pathfinder = function (canvas) { "use strict";
 			start: null,
 			stop: null
 		},
-		explosion = {
-			x: null,
-			y: null
-		},
 		tile = {
 			width: 8,
 			height: 8
@@ -104,8 +100,8 @@ pathfinder = function (canvas) { "use strict";
 	}
 
 	//draws explosion when goal tile is reached
-	function explode(newi) {
-		var i, delay = newi, originX = explosion.x, originY = explosion.y;
+	function explode(delay, originX, originY) {
+		var i;
 
 		for(i = 1; i < 6; i+=1) {
 			delayedColor(delay, originX+i, originY+i);
@@ -136,7 +132,8 @@ pathfinder = function (canvas) { "use strict";
 				delayedColor(i, event.data[i].x, event.data[i].y);
 			}
 
-			explode(len);
+			i-=1;
+			explode(len, event.data[i].x, event.data[i].y);
 		}
 	}
 
@@ -162,8 +159,6 @@ pathfinder = function (canvas) { "use strict";
 
 				callWorker(path, processWorkerResults);
 
-				explosion.x = path.stop.x;
-				explosion.y = path.stop.y;
 				path.start = null;
 				path.stop = null;
 			}
