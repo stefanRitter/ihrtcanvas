@@ -138,7 +138,7 @@ pathfinder = function (canvas) { "use strict";
 	}
 
 	// ************************************************************* CLICK EVENT
-	function handleClick(event) {
+	function handleClick(event, optimized) {
 		
 		//translate mouse coords to pixel coords
 		var row = Math.floor((event.clientX - 10) / tile.width),
@@ -148,23 +148,20 @@ pathfinder = function (canvas) { "use strict";
 			tileMap[row] = [];
 		}
 
-		if (tileMap[row][column] !== 0 && tileMap[row][column] !== 1) {
+		tileMap[row][column] = 0;
 
-			tileMap[row][column] = 0;
+		if (path.start === null) {
+			path.start = { x: row, y: column}; //register first click
+		} else {
+			path.stop = { x: row, y: column}; //register second click
 
-			if (path.start === null) {
-				path.start = { x: row, y: column}; //register first click
-			} else {
-				path.stop = { x: row, y: column}; //register second click
+			callWorker(path, processWorkerResults);
 
-				callWorker(path, processWorkerResults);
-
-				path.start = null;
-				path.stop = null;
-			}
-
-			draw();
+			path.start = null;
+			path.stop = null;
 		}
+
+    optimized ? draw(row, column) : draw();
 	}
 
 	function generateRandomElement() {
@@ -197,8 +194,31 @@ pathfinder = function (canvas) { "use strict";
 	
 	context = canvas.getContext('2d');
 
-	canvas.addEventListener('click', handleClick, false);
 	window.addEventListener('resize', doResize, false);
-
 	doResize();
+
+  // show user how to play
+  function demo() {
+
+    var randX, randY, i;
+
+    //handle two random clicks
+    for(i = 0; i < 2; i+=1) {
+      setTimeout( function() {
+        randX = Math.floor(Math.random() * (canvas.width - canvas.width/4 + 1)) + canvas.width/8;
+        randY = Math.floor(Math.random() * (canvas.height - canvas.height/4 + 1)) + canvas.height/8;
+
+        context.fillStyle = '#CC0E5A';
+        context.font = 'italic 3em EB Garamond serif';
+        context.fillText("click!", randX, randY);
+
+        handleClick({clientX: randX, clientY: randY}, true);
+      }, (i === 0 ? 2000 : 3800));
+    }
+  }
+  demo();
+
+  setTimeout( function() {
+    canvas.addEventListener('click', handleClick, false);
+  }, 3800);
 };
