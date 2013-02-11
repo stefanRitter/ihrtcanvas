@@ -10,6 +10,14 @@
 // ********************************************************************************** GLOBALS
 
 $active-color: #CC0E5A
+$menuHidden: -87%
+
+//switch to mobile view below this value
+$breakpoint: 715px
+
+//when menu is rotated horizontally for small screens it needs to be corrected in X position
+$rotatedDisplacement: -4.3em
+$rotatedHidden: ($menuHidden + 20%)
 
 // ********************************************************************************** PLACEHOLDERS & MIXINS
 
@@ -33,7 +41,7 @@ canvas
     
 // ********************************************************************************** HEADER
 .mainheader
-  position: fixed
+  position: absolute
   top: 3%
   left: 2%
   width: 44%
@@ -55,6 +63,15 @@ canvas
     font: 1.6em/1.1em 'EB Garamond', serif
     em
       font-style: italic
+
+  @media (max-width: $breakpoint)
+    top: 0
+    left: 0
+    width: auto
+    min-height: 8em
+    text-align: justify
+    font-size: 0.8em
+    padding: 2% 6% 2% 2%
       
 // ********************************************************************************** NAVIGATION
 .entries
@@ -85,19 +102,42 @@ canvas
         &:hover
           opacity: 1
 
+      @media (max-width: $breakpoint)
+        width: 6em
+
     li:last-child
       display: block
       height: 0.9em
       background: center url(../images/arrow.png) no-repeat
       background-size: auto 100%
 
-.hoverDownUp
-  +transform(translate(0, -87%))
+  @media (max-width: $breakpoint)
+    top: 0
+    right: 0
+    +transform(rotate(90deg) translate($rotatedDisplacement, 4em))
+
+// these classes are applied to slide menu in and out respectively
+.clickUp
+  +transform(translate(0, $menuHidden))
   +transition(all 0.2s ease-in-out)
 
+  @media (max-width: $breakpoint)
+    +transform(rotate(90deg) translate($rotatedDisplacement, $rotatedHidden))
+
+.clickDown
+  +transform(translate(0,0))
+  +transition(all 0.2s ease-in-out)
+
+  @media (max-width: $breakpoint)
+    +transform(rotate(90deg) translate($rotatedDisplacement, 4em))
+
+.hoverDownUp
+  @extend .clickUp
+
   &:hover
-    +transform(translate(0,0))
-    +transition(all 0.2s ease-in-out)
+    @extend .clickDown
+
+
 
 // ********************************************************************************** FOOTER
 .mainfooter
@@ -110,6 +150,10 @@ canvas
   a
     color: black
 
+  @media (max-width: $breakpoint)
+    font-size: 0.8em
+    text-align: justify
+    margin-right: 3%
     
     
 

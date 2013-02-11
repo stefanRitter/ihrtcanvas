@@ -38,7 +38,7 @@ pathfinder = function (canvas) { "use strict";
 				if (tileMap[row][col] === 0) {
 					context.fillStyle = '#CC0E5A';
 				} else {
-                    context.fillStyle = '#362C30';
+					context.fillStyle = '#362C30';
 				}
 				context.fillRect(tilePositionX, tilePositionY, tile.width, tile.height);
 			} else {
@@ -109,7 +109,7 @@ pathfinder = function (canvas) { "use strict";
 			delayedColor(delay, originX-i, originY+i);
 			delayedColor(delay, originX+i, originY-i);
 
-			if (i > 1) {
+			if (i > 1) { //leave centre of cross empty
 				delayedColor(delay, originX, originY+i);
 				delayedColor(delay, originX+i, originY);
 				delayedColor(delay, originX, originY-i);

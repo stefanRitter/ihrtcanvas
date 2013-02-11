@@ -14,6 +14,11 @@
 
 	// ******************************************************************************* Utils
 
+  function isTouchDevice() {
+    return ("ontouchstart" in window) || navigator.msMaxTouchPoints;
+  }
+
+  //AJAX
 	function xhrGet(reqUri, callback, type) {
 
 		var caller = xhrGet.caller, xhr = new XMLHttpRequest();
@@ -33,6 +38,26 @@
 		};
 
 		xhr.send();
+	}
+
+  //async script loading
+	function loadScript(src, callback)
+	{
+	  var script, rState;
+	  rState = false;
+	  script = document.createElement('script');
+	  script.type = 'text/javascript';
+	  script.src = src;
+	  script.onload = script.onreadystatechange = function() {
+	    //console.log( this.readyState );
+	    if ( !rState && (!this.readyState || this.readyState === 'complete') )
+	    {
+	      rState = true;
+	      callback();
+	    }
+	  };
+	  document.body.appendChild(script);
+    return script;
 	}
 
 	// ******************************************************************************* fadein fadeout
@@ -75,14 +100,16 @@
 
 	function Experiment(name) {
 
-		var canvas = null;
+		var script, canvas = null;
 
 		this.name = name;
+
 		this.kill = function() {
 
 			//fade canvas out
 			fadeout(canvas, 1000, function() {
 				document.body.removeChild(canvas);
+        document.body.removeChild(script);
 			});
 
 			//display loading
@@ -105,14 +132,17 @@
 
 			createCanvas();
 
-			var func = self[name];
-			func(canvas);
-
-			//when done loading
-			loading.style.visibility = 'hidden';
-
-			//fade canvas in
-			fadein(canvas);		
+      script = loadScript('javascripts/' + name + '.js', function() {
+        //when done loading
+        setTimeout(function() {
+          var func = self[name];
+          func(canvas);
+          
+          fadein(canvas); 
+          loading.style.visibility = 'hidden';
+        }, 200);
+        
+      });
 		}
 
 		load();
@@ -141,7 +171,7 @@
 			navigations = document.getElementsByClassName("entries"), navigation = navigations[0], 
 			links = document.anchors;
 
-		// set globals
+		// set global
 		loading = document.getElementById('loading');
 
 		for(i = 0; i < links.length; i += 1) {
@@ -154,7 +184,7 @@
 				for(i = 0; i < links.length; i += 1) {
 					links[i].firstChild.className = ''; //delete active class from img
 				}
-				event.target.className += ' active';
+				event.target.className += 'active';
 
 				experimentManager.loadnewproject(event.currentTarget.name);
 			};
@@ -162,10 +192,29 @@
 
 		loading.style.visibility = 'visible';
 
-		links[0].onclick({preventDefault: function() {}, currentTarget: links[0], target: links[0].firstChild }); //activate newest entry
+    //activate newest entry with fake event object
+		links[0].onclick({preventDefault: function() {}, currentTarget: links[0], target: links[0].firstChild });
 
-		setTimeout(function() {
-			navigation.className = navigation.className + " hoverDownUp";
-		}, 800);
+		if (!isTouchDevice()) {
+      //slide up navigation and activate hover state
+      setTimeout(function() {
+        navigation.className = navigation.className + " hoverDownUp";
+      }, 1000);
+    } else {
+      //for touch devices make navigation touch-able
+      setTimeout(function() {
+        navigation.className = 'entries clickUp';
+      }, 1000);
+
+      navigation.onclick = function (event) {
+        event.preventDefault();
+
+        if (navigation.className === 'entries clickDown') {
+          navigation.className = 'entries clickUp';
+        } else {
+          navigation.className = 'entries clickDown';
+        }
+      };
+    }
 	};
 }(this));
