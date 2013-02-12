@@ -221,4 +221,6 @@ pathfinder = function (canvas) { "use strict";
   setTimeout( function() {
     canvas.addEventListener('click', handleClick, false);
   }, 3800);
+
+  return null;
 };
