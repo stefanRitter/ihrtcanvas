@@ -70,7 +70,7 @@ canvas {
 
 /* line 43, ../sass/application.sass */
 .mainheader {
-  position: absolute;
+  position: fixed;
   top: 3%;
   left: 2%;
   width: 44%;
@@ -105,7 +105,7 @@ canvas {
 .mainheader h2 em {
   font-style: italic;
 }
-@media (max-width: 715px) {
+@media screen and (max-width: 715px) {
   /* line 43, ../sass/application.sass */
   .mainheader {
     top: 0;
@@ -158,7 +158,7 @@ canvas {
 .entries ul li img:hover {
   opacity: 1;
 }
-@media (max-width: 715px) {
+@media screen and (max-width: 715px) {
   /* line 92, ../sass/application.sass */
   .entries ul li {
     width: 6em;
@@ -171,7 +171,7 @@ canvas {
   background: center url(../images/arrow.png) no-repeat;
   background-size: auto 100%;
 }
-@media (max-width: 715px) {
+@media screen and (max-width: 715px) {
   /* line 77, ../sass/application.sass */
   .entries {
     top: 0;
@@ -196,7 +196,7 @@ canvas {
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
-@media (max-width: 715px) {
+@media screen and (max-width: 715px) {
   /* line 120, ../sass/application.sass */
   .clickUp, .hoverDownUp {
     -webkit-transform: rotate(90deg) translate(-4.3em, -67%);
@@ -219,7 +219,7 @@ canvas {
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
-@media (max-width: 715px) {
+@media screen and (max-width: 715px) {
   /* line 127, ../sass/application.sass */
   .clickDown, .hoverDownUp:hover {
     -webkit-transform: rotate(90deg) translate(-4.3em, 4em);
@@ -235,14 +235,14 @@ canvas {
   clear: both;
   position: absolute;
   bottom: 0;
-  margin: 0% auto 2% 3%;
+  margin: 0 auto 2% 3%;
   font: italic 1em "EB Garamond", serif;
 }
 /* line 150, ../sass/application.sass */
 .mainfooter a {
   color: black;
 }
-@media (max-width: 715px) {
+@media screen and (max-width: 715px) {
   /* line 143, ../sass/application.sass */
   .mainfooter {
     font-size: 0.8em;

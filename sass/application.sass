@@ -10,12 +10,13 @@
 // ********************************************************************************** GLOBALS
 
 $active-color: #CC0E5A
+
 $menuHidden: -87%
 
 //switch to mobile view below this value
 $breakpoint: 715px
 
-//when menu is rotated horizontally for small screens it needs to be corrected in X position
+//when menu is rotated horizontally for small screens its position needs to be corrected
 $rotatedDisplacement: -4.3em
 $rotatedHidden: ($menuHidden + 20%)
 
@@ -41,7 +42,7 @@ canvas
     
 // ********************************************************************************** HEADER
 .mainheader
-  position: absolute
+  position: fixed
   top: 3%
   left: 2%
   width: 44%
@@ -64,7 +65,7 @@ canvas
     em
       font-style: italic
 
-  @media (max-width: $breakpoint)
+  @media screen and (max-width: $breakpoint)
     top: 0
     left: 0
     width: auto
@@ -102,7 +103,7 @@ canvas
         &:hover
           opacity: 1
 
-      @media (max-width: $breakpoint)
+      @media screen and (max-width: $breakpoint)
         width: 6em
 
     li:last-child
@@ -111,7 +112,7 @@ canvas
       background: center url(../images/arrow.png) no-repeat
       background-size: auto 100%
 
-  @media (max-width: $breakpoint)
+  @media screen and (max-width: $breakpoint)
     top: 0
     right: 0
     +transform(rotate(90deg) translate($rotatedDisplacement, 4em))
@@ -121,14 +122,14 @@ canvas
   +transform(translate(0, $menuHidden))
   +transition(all 0.2s ease-in-out)
 
-  @media (max-width: $breakpoint)
+  @media screen and (max-width: $breakpoint)
     +transform(rotate(90deg) translate($rotatedDisplacement, $rotatedHidden))
 
 .clickDown
   +transform(translate(0,0))
   +transition(all 0.2s ease-in-out)
 
-  @media (max-width: $breakpoint)
+  @media screen and (max-width: $breakpoint)
     +transform(rotate(90deg) translate($rotatedDisplacement, 4em))
 
 .hoverDownUp
@@ -145,12 +146,12 @@ canvas
   position: absolute
   bottom: 0
 
-  margin: 0% auto 2% 3%
+  margin: 0 auto 2% 3%
   font: italic 1em 'EB Garamond', serif
   a
     color: black
 
-  @media (max-width: $breakpoint)
+  @media screen and (max-width: $breakpoint)
     font-size: 0.8em
     text-align: justify
     margin-right: 3%

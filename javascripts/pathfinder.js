@@ -185,7 +185,7 @@ pathfinder = function (canvas) { "use strict";
 
 		tileMap = [];
 
-		for (i = 0; i < 1000; i += 1) {
+		for (i = 0; i < canvas.width; i += 1) {
 			generateRandomElement();
 		}
 
@@ -213,7 +213,7 @@ pathfinder = function (canvas) { "use strict";
         context.fillText("click!", randX, randY);
 
         handleClick({clientX: randX, clientY: randY}, true);
-      }, (i === 0 ? 2000 : 3800));
+      }, (i === 0 ? 1500 : 3000));
     }
   }
   demo();

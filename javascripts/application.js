@@ -60,6 +60,10 @@
     return script;
 	}
 
+  function createImage(event) {
+    window.open(canvas.toDataUrl(), 'screen shot');
+  }
+
 	// ******************************************************************************* fadein fadeout
 
 	function fadein(element, ms, callback) {
@@ -140,7 +144,7 @@
           
           fadein(canvas); 
           loading.style.visibility = 'hidden';
-        }, 200);
+        }, 100);
         
       });
 		}
