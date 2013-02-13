@@ -47,14 +47,14 @@ html, body {
   clear: both;
 }
 
-/* line 27, ../sass/application.sass */
+/* line 28, ../sass/application.sass */
 canvas {
   position: absolute;
   top: 0;
   left: 0;
 }
 
-/* line 32, ../sass/application.sass */
+/* line 33, ../sass/application.sass */
 #loading {
   visibility: hidden;
   position: fixed;
@@ -62,19 +62,18 @@ canvas {
   width: 100%;
   text-align: center;
 }
-/* line 38, ../sass/application.sass */
+/* line 39, ../sass/application.sass */
 #loading img {
   display: inline-block;
   height: 3em;
 }
 
-/* line 43, ../sass/application.sass */
+/* line 44, ../sass/application.sass */
 .mainheader {
   position: fixed;
   top: 3%;
   left: 2%;
   width: 44%;
-  text-align: left;
   background-color: rgba(255, 255, 255, 0.7);
   padding: 0.5% 1% 1% 1%;
 }
@@ -106,19 +105,18 @@ canvas {
   font-style: italic;
 }
 @media screen and (max-width: 715px) {
-  /* line 43, ../sass/application.sass */
+  /* line 44, ../sass/application.sass */
   .mainheader {
     top: 0;
     left: 0;
     width: auto;
-    min-height: 8em;
-    text-align: justify;
-    font-size: 0.8em;
-    padding: 2% 6% 2% 2%;
+    font-size: 0.7em;
+    min-height: 10em;
+    padding: 2% 10% 2% 2%;
   }
 }
 
-/* line 77, ../sass/application.sass */
+/* line 76, ../sass/application.sass */
 .entries {
   position: fixed;
   top: 0;
@@ -134,37 +132,37 @@ canvas {
   border-bottom-left-radius: 1.6em;
   color: white;
 }
-/* line 89, ../sass/application.sass */
+/* line 88, ../sass/application.sass */
 .entries ul {
   list-style: none;
 }
-/* line 92, ../sass/application.sass */
+/* line 91, ../sass/application.sass */
 .entries ul li {
   font: 1em Helvetica, serif;
   margin: 0.5em 0;
   width: 8em;
   overflow: hidden;
 }
-/* line 97, ../sass/application.sass */
+/* line 96, ../sass/application.sass */
 .entries ul li img {
   width: 100%;
   opacity: 0.5;
 }
-/* line 100, ../sass/application.sass */
+/* line 99, ../sass/application.sass */
 .entries ul li img.active {
   opacity: 1;
 }
-/* line 102, ../sass/application.sass */
+/* line 101, ../sass/application.sass */
 .entries ul li img:hover {
   opacity: 1;
 }
 @media screen and (max-width: 715px) {
-  /* line 92, ../sass/application.sass */
+  /* line 91, ../sass/application.sass */
   .entries ul li {
     width: 6em;
   }
 }
-/* line 108, ../sass/application.sass */
+/* line 107, ../sass/application.sass */
 .entries ul li:last-child {
   display: block;
   height: 0.9em;
@@ -172,19 +170,19 @@ canvas {
   background-size: auto 100%;
 }
 @media screen and (max-width: 715px) {
-  /* line 77, ../sass/application.sass */
+  /* line 76, ../sass/application.sass */
   .entries {
     top: 0;
     right: 0;
-    -webkit-transform: rotate(90deg) translate(-4.3em, 4em);
-    -moz-transform: rotate(90deg) translate(-4.3em, 4em);
-    -ms-transform: rotate(90deg) translate(-4.3em, 4em);
-    -o-transform: rotate(90deg) translate(-4.3em, 4em);
-    transform: rotate(90deg) translate(-4.3em, 4em);
+    -webkit-transform: rotate(90deg) translate(-4.4em, 4em);
+    -moz-transform: rotate(90deg) translate(-4.4em, 4em);
+    -ms-transform: rotate(90deg) translate(-4.4em, 4em);
+    -o-transform: rotate(90deg) translate(-4.4em, 4em);
+    transform: rotate(90deg) translate(-4.4em, 4em);
   }
 }
 
-/* line 120, ../sass/application.sass */
+/* line 119, ../sass/application.sass */
 .clickUp, .hoverDownUp {
   -webkit-transform: translate(0, -87%);
   -moz-transform: translate(0, -87%);
@@ -197,17 +195,17 @@ canvas {
   transition: all 0.2s ease-in-out;
 }
 @media screen and (max-width: 715px) {
-  /* line 120, ../sass/application.sass */
+  /* line 119, ../sass/application.sass */
   .clickUp, .hoverDownUp {
-    -webkit-transform: rotate(90deg) translate(-4.3em, -67%);
-    -moz-transform: rotate(90deg) translate(-4.3em, -67%);
-    -ms-transform: rotate(90deg) translate(-4.3em, -67%);
-    -o-transform: rotate(90deg) translate(-4.3em, -67%);
-    transform: rotate(90deg) translate(-4.3em, -67%);
+    -webkit-transform: rotate(90deg) translate(-4.4em, -60%);
+    -moz-transform: rotate(90deg) translate(-4.4em, -60%);
+    -ms-transform: rotate(90deg) translate(-4.4em, -60%);
+    -o-transform: rotate(90deg) translate(-4.4em, -60%);
+    transform: rotate(90deg) translate(-4.4em, -60%);
   }
 }
 
-/* line 127, ../sass/application.sass */
+/* line 126, ../sass/application.sass */
 .clickDown, .hoverDownUp:hover {
   -webkit-transform: translate(0, 0);
   -moz-transform: translate(0, 0);
@@ -220,17 +218,17 @@ canvas {
   transition: all 0.2s ease-in-out;
 }
 @media screen and (max-width: 715px) {
-  /* line 127, ../sass/application.sass */
+  /* line 126, ../sass/application.sass */
   .clickDown, .hoverDownUp:hover {
-    -webkit-transform: rotate(90deg) translate(-4.3em, 4em);
-    -moz-transform: rotate(90deg) translate(-4.3em, 4em);
-    -ms-transform: rotate(90deg) translate(-4.3em, 4em);
-    -o-transform: rotate(90deg) translate(-4.3em, 4em);
-    transform: rotate(90deg) translate(-4.3em, 4em);
+    -webkit-transform: rotate(90deg) translate(-4.4em, 4em);
+    -moz-transform: rotate(90deg) translate(-4.4em, 4em);
+    -ms-transform: rotate(90deg) translate(-4.4em, 4em);
+    -o-transform: rotate(90deg) translate(-4.4em, 4em);
+    transform: rotate(90deg) translate(-4.4em, 4em);
   }
 }
 
-/* line 143, ../sass/application.sass */
+/* line 142, ../sass/application.sass */
 .mainfooter {
   clear: both;
   position: absolute;
@@ -238,15 +236,15 @@ canvas {
   margin: 0 auto 2% 3%;
   font: italic 1em "EB Garamond", serif;
 }
-/* line 150, ../sass/application.sass */
+/* line 149, ../sass/application.sass */
 .mainfooter a {
   color: black;
 }
 @media screen and (max-width: 715px) {
-  /* line 143, ../sass/application.sass */
+  /* line 142, ../sass/application.sass */
   .mainfooter {
     font-size: 0.8em;
     text-align: justify;
-    margin-right: 3%;
+    margin: 1% 3%;
   }
 }

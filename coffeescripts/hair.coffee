@@ -6,25 +6,17 @@
  *
 ###
 
-# Perlin noise: http://asserttrue.blogspot.co.uk/2011/12/perlin-noise-in-javascript_31.html
-
-###
-  TODO: 
-  colour swirl
-  change density according to computer performance?
-###
-
 window.hair = (canvas) ->
   "use strict"
 
   # globals
   context = canvas.getContext('2d')
   allLines = []
-  framerate = 30
-  lineDensity = 10
+  framerate = 24
+  lineDensity = 14
   linelength = 40
   interval = null
-  animLength = 50
+  animLength = framerate*3
 
   # agents
   class LineElement
@@ -57,7 +49,6 @@ window.hair = (canvas) ->
 
       context.restore()
 
-
   # draw all lines
   draw = (x = 0, y = 0, dx = canvas.width, dy = canvas.height) ->
     context.clearRect(x, y, dx, dy)
@@ -79,7 +70,6 @@ window.hair = (canvas) ->
     #closest = (line for line in allLines when (line.x - clientX)*(line.x - clientX) + (line.y - clientY)*(line.y - clientY) < (range * range))
 
     for line in allLines 
-      #line.color = '#CC0E5A'
       rotX = (line.x - clientX)
       rotY = (line.y - clientY)
       factor = Math.atan2(rotX, rotY) * 360 * Math.PI/180 #instead of orienting towards the mouse over-rotate each line to create flower effect
@@ -118,7 +108,9 @@ window.hair = (canvas) ->
     draw()
 
   handleKey = (event) ->
-    doResize() if event.keyCode == 27 # 27 = ESC
+    if event.keyCode == 27 # 27 = ESC
+      clearInterval(interval) if interval != null
+      interval = null
 
   # play demo for user
   demo = () ->
@@ -143,5 +135,5 @@ window.hair = (canvas) ->
   # wait for canvas fade-in then show demo
   setTimeout( ->
       demo()
-    , 1000)
+    , 1900)
 

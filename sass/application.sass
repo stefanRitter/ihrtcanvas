@@ -17,8 +17,8 @@ $menuHidden: -87%
 $breakpoint: 715px
 
 //when menu is rotated horizontally for small screens its position needs to be corrected
-$rotatedDisplacement: -4.3em
-$rotatedHidden: ($menuHidden + 20%)
+$rotatedDisplacement: -4.4em
+$rotatedHidden: ($menuHidden + 27%)
 
 // ********************************************************************************** PLACEHOLDERS & MIXINS
 
@@ -46,7 +46,6 @@ canvas
   top: 3%
   left: 2%
   width: 44%
-  text-align: left
   background-color: rgba(255,255,255,0.7)
   padding: 0.5% 1% 1% 1%
   
@@ -69,10 +68,9 @@ canvas
     top: 0
     left: 0
     width: auto
-    min-height: 8em
-    text-align: justify
-    font-size: 0.8em
-    padding: 2% 6% 2% 2%
+    font-size: 0.7em
+    min-height: 10em
+    padding: 2% 10% 2% 2%
       
 // ********************************************************************************** NAVIGATION
 .entries
@@ -117,7 +115,7 @@ canvas
     right: 0
     +transform(rotate(90deg) translate($rotatedDisplacement, 4em))
 
-// these classes are applied to slide menu in and out respectively
+// these classes are applied to slide the menu up and down
 .clickUp
   +transform(translate(0, $menuHidden))
   +transition(all 0.2s ease-in-out)
@@ -154,7 +152,7 @@ canvas
   @media screen and (max-width: $breakpoint)
     font-size: 0.8em
     text-align: justify
-    margin-right: 3%
+    margin: 1% 3%
     
     
 
