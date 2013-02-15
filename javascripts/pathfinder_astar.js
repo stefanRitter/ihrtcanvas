@@ -79,14 +79,14 @@
 	// ******************************************************************************* ASTAR
 	function astar(tileMap, gridW, gridH, src, dest) {
 		var openList = new NodeList(true, 'F'),
-            closedList = new NodeList(),
-            path = new NodeList(),
-            currentNode = null,
-            nstart, nstop, row, col, element, tempNode,
-            grid = {
-                rows: gridW,
-                cols: gridH
-            };
+        closedList = new NodeList(),
+        path = new NodeList(),
+        currentNode = null,
+        nstart, nstop, row, col, element, tempNode,
+        grid = {
+            rows: gridW,
+            cols: gridH
+        };
 
 		function checkDifference(src, dest) {
 			return (src.x === dest.x && src.y === dest.y);

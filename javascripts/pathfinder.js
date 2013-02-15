@@ -9,7 +9,7 @@
 
 pathfinder = function (canvas) { "use strict";	
 
-	var i, context, tileMap = [],
+	var i, context, header, tileMap = [],
 		path = {
 			start: null,
 			stop: null
@@ -197,6 +197,9 @@ pathfinder = function (canvas) { "use strict";
 	window.addEventListener('resize', doResize, false);
 	doResize();
 
+  header = document.getElementsByTagName('header');
+  header[0].style.background = 'rgba(255,255,255,0.7)';
+
   // show user how to play
   function demo() {
 
@@ -222,5 +225,4 @@ pathfinder = function (canvas) { "use strict";
     canvas.addEventListener('click', handleClick, false);
   }, 3800);
 
-  return null;
 };

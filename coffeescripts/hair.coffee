@@ -3,7 +3,6 @@
  *  Hi there, have a look at my source files here:
  *  https://github.com/stefanRitter/
  * 
- *
 ###
 
 window.hair = (canvas) ->
@@ -18,13 +17,15 @@ window.hair = (canvas) ->
   interval = null
   animLength = framerate*3
 
+
   # agents
   class LineElement
 
     constructor: (@x, @y, noise, @color = '#000000') ->
       @rotate = noise * 360 * Math.PI/180
       @difference = 0
-      @count = 0
+      @count = animLength+1 #no animation
+      @colorfactor = 0
 
     draw: ->
       context.save()
@@ -35,6 +36,10 @@ window.hair = (canvas) ->
       if @count < animLength
         @rotate += @difference
         @count++
+        @color = "rgb(#{@colorfactor-@count*2}, 0, 0)"
+
+        if @count >= Math.floor((Math.random() * animLength) + 2*animLength/3)
+          handleClick { clientX: Math.floor(Math.random() * canvas.width), clientY: Math.floor(Math.random() * canvas.height) }
 
       context.rotate(@rotate) 
 
@@ -42,12 +47,13 @@ window.hair = (canvas) ->
       context.lineWidth = 1
 
       context.beginPath()
-      context.moveTo 0, 0
+      context.moveTo 0, 0 #rotation defines start point
       context.lineTo(linelength,0)
       context.stroke()
       context.closePath()
 
       context.restore()
+
 
   # draw all lines
   draw = (x = 0, y = 0, dx = canvas.width, dy = canvas.height) ->
@@ -58,7 +64,6 @@ window.hair = (canvas) ->
 
     if allLines[0].count >= animLength
         clearInterval(interval) if interval != null
-        #console.log interval
         interval = null
 
 
@@ -66,8 +71,6 @@ window.hair = (canvas) ->
     range = canvas.width/8
     clientY = event.clientY
     clientX = event.clientX
-
-    #closest = (line for line in allLines when (line.x - clientX)*(line.x - clientX) + (line.y - clientY)*(line.y - clientY) < (range * range))
 
     for line in allLines 
       rotX = (line.x - clientX)
@@ -78,12 +81,17 @@ window.hair = (canvas) ->
 
       line.difference = difference / animLength
       line.count = 0
+      
+      # radially go red and back to black
+      closedist = rotX*rotX + rotY*rotY # radial distance from mouse: if closedist < (range * range)
+      line.colorfactor = parseInt 255 - (closedist/600)
 
     # start animation
     clearInterval(interval) if interval != null
     interval = setInterval( ->
           draw()
         , 1000/framerate)
+
 
   # resize & initialize
   doResize = ->
@@ -107,10 +115,12 @@ window.hair = (canvas) ->
 
     draw()
 
+
   handleKey = (event) ->
     if event.keyCode == 27 # 27 = ESC
       clearInterval(interval) if interval != null
       interval = null
+
 
   # play demo for user
   demo = () ->
@@ -126,11 +136,16 @@ window.hair = (canvas) ->
         handleClick({clientX: randX, clientY: randY})
       , 800)
 
+
+  # start the show
   window.addEventListener('resize', doResize, false)
   window.addEventListener('keyup', handleKey, false)
   canvas.addEventListener('click', handleClick, false)
 
   doResize()
+
+  header = document.getElementsByTagName('header')
+  header[0].style.background = 'transparent'
 
   # wait for canvas fade-in then show demo
   setTimeout( ->
