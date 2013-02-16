@@ -38,7 +38,7 @@ window.hair = (canvas) ->
         @count++
         @color = "rgb(#{@colorfactor-@count*2}, 0, 0)"
 
-        if @count >= Math.floor((Math.random() * animLength) + 2*animLength/3)
+        if @count >= Math.floor((Math.random() * animLength) + 3*animLength/4)
           handleClick { clientX: Math.floor(Math.random() * canvas.width), clientY: Math.floor(Math.random() * canvas.height) }
 
       context.rotate(@rotate) 
