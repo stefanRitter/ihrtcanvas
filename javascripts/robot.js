@@ -39,21 +39,24 @@ robot = function (canvas) {
     var lightGreyMaterial = new THREE.MeshPhongMaterial( { color: 0xa6aaad, shininess: 30 } );
     lightGreyMaterial.specular.setRGB( 0.5, 0.5, 0.5 );
 
+    var evenLightGreyMaterial = new THREE.MeshPhongMaterial( { color: 0xd1d2d4, shininess: 30 } );
+    evenLightGreyMaterial.specular.setRGB( 0.5, 0.5, 0.5 );
+
     var darkGreyMaterial = new THREE.MeshPhongMaterial( { color: 0x818284, shininess: 30 } );
     darkGreyMaterial.specular.setRGB( 0.5, 0.5, 0.5 );
 
-    var eyeMaterial = new THREE.MeshPhongMaterial( { color: 0xf8931f, shininess: 30 } );
-    eyeMaterial.specular.setRGB( 0.5, 0.5, 0.5 );
+    var orangeMaterial = new THREE.MeshPhongMaterial( { color: 0xf8931f, shininess: 30 } );
+    orangeMaterial.specular.setRGB( 0.5, 0.5, 0.5 );
 
-    var mouthMaterial = new THREE.MeshPhongMaterial( { color: 0x58595b, shininess: 30 } );
-    mouthMaterial.specular.setRGB( 0.5, 0.5, 0.5 );
-
-    //var glassMaterial = new THREE.MeshPhongMaterial( { color: 0x0, specular: 0xFFFFFF,
-    //  shininess: 100, opacity: 0.3, transparent: true } );
+    var evenDarkerGreyMaterial = new THREE.MeshPhongMaterial( { color: 0x494a4b, shininess: 30 } );
+    evenDarkerGreyMaterial.specular.setRGB( 0.5, 0.5, 0.5 );
 
     var footMaterial = lightGreyMaterial;
     var headMaterial = lightGreyMaterial;
-
+    var bellyMaterial = evenDarkerGreyMaterial;
+    var innerBellyMaterial = evenLightGreyMaterial;
+    var mouthMaterial = evenDarkerGreyMaterial;
+    var eyeMaterial = orangeMaterial;
 
 
     // **************************************************************************************************************
@@ -65,11 +68,11 @@ robot = function (canvas) {
     var leftLeg = new THREE.Object3D();
     var cylinder, cube;
     var legGeometry = [];
-    legGeometry[0] = new THREE.CubeGeometry( 50, 22, 45, 1, 1 );
+    legGeometry[0] = new THREE.CubeGeometry( 45, 22, 40, 1, 1 );
     cube = new THREE.Mesh( legGeometry[0], footMaterial );
     cube.position.x = 0;
     cube.position.y = 22/2;
-    cube.position.z = 0;
+    cube.position.z = 2;
     leftLeg.add(cube);
 
     legGeometry[1] = new THREE.CubeGeometry( 30, 50, 25, 1, 1 );
@@ -108,7 +111,7 @@ robot = function (canvas) {
     cube = new THREE.Mesh( legGeometry[0], footMaterial );
     cube.position.x = 0;
     cube.position.y = 22/2;
-    cube.position.z = 0;
+    cube.position.z = 2;
     rightLeg.add(cube);
 
     cube = new THREE.Mesh( legGeometry[1], footMaterial );
@@ -149,6 +152,7 @@ robot = function (canvas) {
     // **************************************************************************************************************
 
     var body = new THREE.Object3D();
+    var mainBodyHeight = 125;
 
     var legHeight = 22 + 50 + 8;
     cube = new THREE.Mesh( new THREE.CubeGeometry( 70, 13, 100, 1, 1 ), lightGreyMaterial );
@@ -163,18 +167,50 @@ robot = function (canvas) {
     cube.position.z = 0;
     body.add(cube);
 
-    cube = new THREE.Mesh( new THREE.CubeGeometry( 80, 125, 110, 1, 1 ), lightGreyMaterial );
+    var bodyCenter = 0;
+    cube = new THREE.Mesh( new THREE.CubeGeometry( 80, mainBodyHeight, 110, 1, 1 ), lightGreyMaterial );
     cube.position.x = 0;
-    cube.position.y = legHeight + 13 + 7 + 125/2;
+    cube.position.y = bodyCenter = legHeight + 13 + 7 + mainBodyHeight/2;
     cube.position.z = 0;
     body.add(cube);
 
-    cube = bodyShieldMesh( footMaterial );
-    cube.position.x = -80/2 - 5;
-    cube.position.y = legHeight + 13 + 7 + 125/2;
-    cube.position.z = 0;
+    cube = bodyShieldMesh( lightGreyMaterial, 50, mainBodyHeight-5, 5, 2 );
+    cube.position.x = -80/2;
+    cube.position.y = bodyCenter - (mainBodyHeight-5)/2;
+    cube.position.z = -51;
+    cube.rotation = new THREE.Vector3( 0, 0, 90*Math.PI/180);
     body.add(cube);
 
+    cube = bodyShieldMesh( lightGreyMaterial, 50, mainBodyHeight-5, 5, 2, 'mirror');
+    cube.position.x = -80/2;
+    cube.position.y = bodyCenter - (mainBodyHeight-5)/2;
+    cube.position.z = 51;
+    cube.rotation = new THREE.Vector3( 0, 0, 90*Math.PI/180);
+    body.add(cube);
+
+    // belly
+    var belly = new THREE.Object3D();
+    var bellyRadius = 20;
+    var bellyDepth = 1;
+
+    cylinder = new THREE.Mesh( new THREE.CylinderGeometry( bellyRadius, bellyRadius, bellyDepth, segments, segments ),
+                               bellyMaterial );
+    cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
+    belly.add(cylinder);
+
+    cylinder = new THREE.Mesh( new THREE.CylinderGeometry( bellyRadius-3, bellyRadius-3, bellyDepth, segments, segments ),
+                               innerBellyMaterial );
+    cylinder.position.x = 0;
+    cylinder.position.y = 0;
+    cylinder.position.z = -bellyDepth;
+    cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
+    belly.add(cylinder);
+
+    belly.rotation = new THREE.Vector3( 0, 90*Math.PI/180, 0 );
+    belly.position.x = -80/2 - 5;
+    belly.position.y = bodyCenter + 16;
+    belly.position.z = 0;
+    body.add( belly );
 
 
     // **************************************************************************************************************
@@ -183,17 +219,26 @@ robot = function (canvas) {
     // **************************************************************************************************************
 
     var head = new THREE.Object3D();
-    var bodyHeigt = legHeight + 13 + 7 + 125;
+    var headHeight = 63;
+    var headWidth = 85;
+
+    var bodyHeight = legHeight + 13 + 7 + 125;
 
     cylinder = new THREE.Mesh( new THREE.CylinderGeometry( 34, 34, 2, segments, segments ), darkGreyMaterial );
     cylinder.position.x = 0;
-    cylinder.position.y = bodyHeigt + 2/2;
+    cylinder.position.y = bodyHeight + 2/2;
     cylinder.position.z = 0;
     head.add(cylinder);
 
-    cube = new THREE.Mesh( new THREE.CubeGeometry( 90, 65, 85, 1, 1 ), headMaterial );
+    cube = new THREE.Mesh( new THREE.CubeGeometry( 90, headHeight, headWidth, 1, 1 ), headMaterial );
     cube.position.x = 0;
-    cube.position.y = bodyHeigt + 2 + 65/2;
+    cube.position.y = bodyHeight + 2 + headHeight/2;
+    cube.position.z = 0;
+    head.add(cube);
+
+    cube = buildFaceMesh( headMaterial, headHeight, headWidth, 4 );
+    cube.position.x = -90/2 - 4;
+    cube.position.y = bodyHeight + 2;
     cube.position.z = 0;
     head.add(cube);
 
@@ -202,7 +247,7 @@ robot = function (canvas) {
     var rightEar = new THREE.Object3D();
     var leftEar = new THREE.Object3D();
 
-    var headMidHeight = bodyHeigt + 2 + 65/2;
+    var headMidHeight = bodyHeight + 2 + headHeight/2;
     var earGeom = [];
 
     // right
@@ -210,7 +255,7 @@ robot = function (canvas) {
     cylinder = new THREE.Mesh( earGeom[0], headMaterial );
     cylinder.position.x = 0;
     cylinder.position.y = headMidHeight;
-    cylinder.position.z = 85/2 + 5/2;
+    cylinder.position.z = headWidth/2 + 5/2;
     cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
     rightEar.add(cylinder);
 
@@ -218,7 +263,7 @@ robot = function (canvas) {
     cylinder = new THREE.Mesh( earGeom[1], headMaterial );
     cylinder.position.x = 0;
     cylinder.position.y = headMidHeight;
-    cylinder.position.z = 85/2 + 5 + 10/2;
+    cylinder.position.z = headWidth/2 + 5 + 10/2;
     cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
     rightEar.add(cylinder);
 
@@ -227,7 +272,7 @@ robot = function (canvas) {
     cylinder = new THREE.Mesh( earGeom[0], headMaterial );
     cylinder.position.x = 0;
     cylinder.position.y = headMidHeight;
-    cylinder.position.z = 85/2 + 5/2;
+    cylinder.position.z = headWidth/2 + 5/2;
     cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
     leftEar.add(cylinder);
 
@@ -235,7 +280,7 @@ robot = function (canvas) {
     cylinder = new THREE.Mesh( earGeom[1], headMaterial );
     cylinder.position.x = 0;
     cylinder.position.y = headMidHeight;
-    cylinder.position.z = 85/2 + 5 + 10/2;
+    cylinder.position.z = headWidth/2 + 5 + 10/2;
     cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
     leftEar.add(cylinder);
 
@@ -252,11 +297,12 @@ robot = function (canvas) {
     var eyeHeight = headMidHeight + 8,
         eyeBetweenDist = 35,
         eyeRadius = 10,
-        eyeFromHeadDist = -90/2,
+        eyeFromHeadDist = -90/2 - 3,
+        eyeDepth = 3,
         eyeGeom = [];
 
     // right
-    eyeGeom[0] = new THREE.CylinderGeometry( eyeRadius, eyeRadius, 2, segments, segments );
+    eyeGeom[0] = new THREE.CylinderGeometry( eyeRadius, eyeRadius, eyeDepth, segments, segments );
     cylinder = new THREE.Mesh( eyeGeom[0], headMaterial );
     cylinder.position.x = 0;
     cylinder.position.y = eyeHeight;
@@ -264,11 +310,11 @@ robot = function (canvas) {
     cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
     rightEye.add(cylinder);
 
-    eyeGeom[1] = new THREE.CylinderGeometry( eyeRadius-2, eyeRadius-2, 2, segments, segments );
+    eyeGeom[1] = new THREE.CylinderGeometry( eyeRadius-2, eyeRadius-2, eyeDepth, segments, segments );
     cylinder = new THREE.Mesh( eyeGeom[1], eyeMaterial );
     cylinder.position.x = 0;
     cylinder.position.y = eyeHeight;
-    cylinder.position.z = -2;
+    cylinder.position.z = -eyeDepth;
     cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
     rightEye.add(cylinder);
 
@@ -287,7 +333,7 @@ robot = function (canvas) {
     cylinder = new THREE.Mesh( eyeGeom[1], eyeMaterial );
     cylinder.position.x = 0;
     cylinder.position.y = eyeHeight;
-    cylinder.position.z = -2;
+    cylinder.position.z = -eyeDepth;
     cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
     leftEye.add(cylinder);
 
@@ -304,7 +350,7 @@ robot = function (canvas) {
     mouthMesh.rotation = new THREE.Vector3( 0, 90*Math.PI/180, 0);
     var mouth = new THREE.Object3D();
     mouth.add(mouthMesh);
-    mouth.position.x = eyeFromHeadDist-1;
+    mouth.position.x = eyeFromHeadDist + 2.5;
     mouth.position.y = eyeHeight - 30;
     mouth.position.z = 0;
     mouth.rotation = new THREE.Vector3( 0, 0, 90*Math.PI/180);
@@ -327,16 +373,57 @@ robot = function (canvas) {
     scene.add( robot );
   }
 
-  function bodyShieldMesh( material ) {
-    shield = new THREE.Mesh( new THREE.CubeGeometry( 10, 115, 100, 1, 1 ), material );
-    return shield;
+
+  // ****************************************************************************************************************
+  // ****************************************************************************************************************
+  // **************************************************************************************************************** SPECIALS
+  // ****************************************************************************************************************
+
+
+
+  function buildFaceMesh ( material, h, w, d ) {
+    var height = h || 40;
+    var width = w || 80;
+    var depth = d|| 4;
+
+    var geometry = new THREE.Geometry();
+
+    var v0 = new THREE.Vector3( depth, 0, -width/2 );
+    var v1 = new THREE.Vector3( depth, 0, width/2 );
+    var v2 = new THREE.Vector3( 0, 0, 0 );
+
+    var v3 = new THREE.Vector3( depth, height, -width/2 );
+    var v4 = new THREE.Vector3( depth, height, width/2 );
+    var v5 = new THREE.Vector3( 0, height, 0 );
+
+    geometry.vertices.push(v0);
+    geometry.vertices.push(v1);
+    geometry.vertices.push(v2);
+    geometry.vertices.push(v3);
+    geometry.vertices.push(v4);
+    geometry.vertices.push(v5);
+
+    // bottom
+    geometry.faces.push( new THREE.Face3( 1, 2, 0 ) );
+    // top
+    geometry.faces.push( new THREE.Face3( 5, 4, 3 ) );
+    // back
+    geometry.faces.push( new THREE.Face4( 3, 4, 1, 0 ) );
+    //front
+    geometry.faces.push( new THREE.Face4( 0, 2, 5, 3 ) );
+    geometry.faces.push( new THREE.Face4( 2, 1, 4, 5 ) );
+
+    geometry.computeCentroids();
+    geometry.computeFaceNormals();
+    return new THREE.Mesh( geometry, material);
   }
 
-  function buildMouthMesh( material ) {
-    var height = 3;
-    var offset = 1.8;
-    var width = 13;
-    var depth = 3;
+  function buildMouthMesh( material, h, o, w, d ) {
+    var height = h || 3;
+    var offset = o || 1.8;
+    var width = w || 13;
+    var depth = d || 5;
+
     var geometry = new THREE.Geometry();
 
     var v1 = new THREE.Vector3(-width,0,height+offset);
@@ -366,19 +453,121 @@ robot = function (canvas) {
     geometry.vertices.push(v11);
     geometry.vertices.push(v12);
 
+    // back
     geometry.faces.push( new THREE.Face4( 0, 1, 4, 5 ) );
     geometry.faces.push( new THREE.Face4( 1, 2, 3, 4 ) );
 
+    // top
+    geometry.faces.push( new THREE.Face4( 0, 1, 7, 6 ) );
+    geometry.faces.push( new THREE.Face4( 1, 2, 8, 7 ) );
+
+    // front
     geometry.faces.push( new THREE.Face4( 6, 7, 10, 11 ) );
     geometry.faces.push( new THREE.Face4( 7, 8, 9, 10 ) );
+
+    // bottom
+    geometry.faces.push( new THREE.Face4( 11, 10, 4, 5 ) );
+    geometry.faces.push( new THREE.Face4( 10, 9, 3, 4 ) );
+
+    // sides
+    geometry.faces.push( new THREE.Face4( 2, 3, 9, 8 ) );
+    geometry.faces.push( new THREE.Face4( 6, 11, 5, 0 ) );
+
     geometry.computeCentroids();
     geometry.computeFaceNormals();
-    geometry.computeVertexNormals();
+    //geometry.computeVertexNormals(); // makes it appear soft
     return new THREE.Mesh( geometry, material);
   }
 
+  function bodyShieldMesh( material, width, height, depth, steep, mirror ) {
+    var h = height || 80;
+    var w = width || 40;
+    var d = depth || 4;
+    var s = steep || 2;
 
+    var geometry = new THREE.Geometry();
 
+    geometry.vertices.push( new THREE.Vector3( h, 0, 0 ));
+    geometry.vertices.push( new THREE.Vector3( h, 0, w ));
+    geometry.vertices.push( new THREE.Vector3( 0, 0, w ));
+    geometry.vertices.push( new THREE.Vector3( 0, 0, 0 ));
+
+    geometry.vertices.push( new THREE.Vector3( 2*h/4, 0, 0 ));
+    geometry.vertices.push( new THREE.Vector3( 2*h/4, 0, w/8 ));
+    geometry.vertices.push( new THREE.Vector3( 3*h/4, 0, w/8 ));
+    geometry.vertices.push( new THREE.Vector3( 3*h/4, 0, 0 ));
+
+    geometry.vertices.push( new THREE.Vector3( h, d, 0 ));
+    geometry.vertices.push( new THREE.Vector3( h, d, w ));
+    geometry.vertices.push( new THREE.Vector3( 0, d, w ));
+    geometry.vertices.push( new THREE.Vector3( 0, d, 0 ));
+    geometry.vertices.push( new THREE.Vector3( 2*h/4, d, 0 ));
+    geometry.vertices.push( new THREE.Vector3( 2*h/4, d, w/8 + s));
+    geometry.vertices.push( new THREE.Vector3( 3*h/4, d, w/8 + s));
+    geometry.vertices.push( new THREE.Vector3( 3*h/4, d, 0 ));
+
+    // mirror
+    if (mirror) {
+      var m = new THREE.Matrix4(
+                                  1, 0, 0, 0,
+                                  0, 1, 0, 0,
+                                  0, 0, -1,0,
+                                  0, 0, 0, 1 );
+      geometry.applyMatrix( m );
+
+      // bottom
+      geometry.faces.push( new THREE.Face4( 7, 6, 1, 0 ) );
+      geometry.faces.push( new THREE.Face4( 6, 5, 2, 1 ) );
+      geometry.faces.push( new THREE.Face4( 4, 3, 2, 5 ) );
+      geometry.faces.push( new THREE.Face4( 4, 5, 6, 7 ) );
+
+      // top
+      geometry.faces.push( new THREE.Face4( 8, 9, 14, 15 ) );
+      geometry.faces.push( new THREE.Face4( 9, 10, 13, 14 ) );
+      geometry.faces.push( new THREE.Face4( 10, 11, 12, 13 ) );
+
+      // sides
+      geometry.faces.push( new THREE.Face4( 11, 10, 2, 3 ) );
+      geometry.faces.push( new THREE.Face4( 1, 2, 10, 9 ) );
+      geometry.faces.push( new THREE.Face4( 0, 1, 9, 8 ) );
+      geometry.faces.push( new THREE.Face4( 8, 15, 7, 0 ) );
+      geometry.faces.push( new THREE.Face4( 12, 11, 3, 4 ) );
+
+      // cut out
+      geometry.faces.push( new THREE.Face3( 15, 14, 7 ) );
+      geometry.faces.push( new THREE.Face3( 4, 13, 12 ) );
+      geometry.faces.push( new THREE.Face4( 14, 13, 4, 7 ) );
+
+    } else {
+
+      // bottom
+      geometry.faces.push( new THREE.Face4( 0, 1, 6, 7 ) );
+      geometry.faces.push( new THREE.Face4( 1, 2, 5, 6 ) );
+      geometry.faces.push( new THREE.Face4( 5, 2, 3, 4 ) );
+      geometry.faces.push( new THREE.Face4( 7, 6, 5, 4 ) );
+
+      // top
+      geometry.faces.push( new THREE.Face4( 15, 14, 9, 8 ) );
+      geometry.faces.push( new THREE.Face4( 14, 13, 10, 9 ) );
+      geometry.faces.push( new THREE.Face4( 13, 12, 11, 10 ) );
+
+      // sides
+      geometry.faces.push( new THREE.Face4( 3, 2, 10, 11 ) );
+      geometry.faces.push( new THREE.Face4( 9, 10, 2, 1 ) );
+      geometry.faces.push( new THREE.Face4( 8, 9, 1, 0 ) );
+      geometry.faces.push( new THREE.Face4( 0, 7, 15, 8 ) );
+      geometry.faces.push( new THREE.Face4( 4, 3, 11, 12 ) );
+
+      // cut out
+      geometry.faces.push( new THREE.Face3( 7, 14, 15 ) );
+      geometry.faces.push( new THREE.Face3( 12, 13, 4 ) );
+      geometry.faces.push( new THREE.Face4( 7, 4, 13, 14 ) );
+    }
+
+    geometry.computeCentroids();
+    geometry.computeFaceNormals();
+    return new THREE.Mesh( geometry, material);
+  }
 
 
 
@@ -416,7 +605,7 @@ robot = function (canvas) {
     renderer.gammaInput = true;
     renderer.gammaOutput = true;
     renderer.setSize(canvasWidth, canvasHeight);
-    renderer.setClearColorHex( 0xffffff, 1.0 ); //0xAAAAAA, 1.0 );
+    renderer.setClearColorHex( 0x272e38, 1.0 ); //0xAAAAAA, 1.0 );
 
     // CAMERA
     camera = new THREE.PerspectiveCamera( 40, canvasRatio, 1, 10000 );
