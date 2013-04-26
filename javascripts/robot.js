@@ -169,8 +169,8 @@ robot = function (canvas) {
   }
 
   function init() {
-    var canvasWidth = 846;
-    var canvasHeight = 494;
+    var canvasWidth = canvas.width;
+    var canvasHeight = canvas.height;
     var canvasRatio = canvasWidth / canvasHeight;
 
     // RENDERER
