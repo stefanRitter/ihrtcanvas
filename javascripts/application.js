@@ -5,201 +5,199 @@
  * 
  *
  */
+/*jshint loopfunc: true */
 
 (function(self) { "use strict";
 
-	// ******************************************************************************* globals
+  // ******************************************************************************* globals
 
-	var loading, experimentManager;
+  var loading, experimentManager;
 
-	// ******************************************************************************* Utils
+  // ******************************************************************************* Utils
 
   function isTouchDevice() {
     return ("ontouchstart" in window) || navigator.msMaxTouchPoints;
   }
 
   //AJAX
-	function xhrGet(reqUri, callback, type) {
+  function xhrGet(reqUri, callback, type) {
 
-		var caller = xhrGet.caller, xhr = new XMLHttpRequest();
+    var caller = xhrGet.caller, xhr = new XMLHttpRequest();
 
-		xhr.open('GET', reqUri, true);
-		if (type) { xhr.responseType = type; }
+    xhr.open('GET', reqUri, true);
+    if (type) { xhr.responseType = type; }
 
-		xhr.onload = function () {
-			if (callback) {
-				try {
-					callback(xhr);
-				} catch (error) {
-					throw 'xhrGet failed: \n' + reqUri + '\nException: ' + error + '\nCaller: ' + caller + 
-					'\nResponse: ' + xhr.responseText;
-				}
-			}
-		};
+    xhr.onload = function () {
+      if (callback) {
+        try {
+          callback(xhr);
+        } catch (error) {
+          throw 'xhrGet failed: \n' + reqUri + '\nException: ' + error + '\nCaller: ' + caller + '\nResponse: ' + xhr.responseText;
+        }
+      }
+    };
 
-		xhr.send();
-	}
+    xhr.send();
+  }
 
   //async script loading
-	function loadScript(src, callback)
-	{
-	  var script, rState;
-	  rState = false;
-	  script = document.createElement('script');
-	  script.type = 'text/javascript';
-	  script.src = src;
-	  script.onload = script.onreadystatechange = function() {
-	    //console.log( this.readyState );
-	    if ( !rState && (!this.readyState || this.readyState === 'complete') )
-	    {
-	      rState = true;
-	      callback();
-	    }
-	  };
-	  document.body.appendChild(script);
+  window.loadScript = function (src, callback)
+  {
+    var script, rState;
+    rState = false;
+    script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = src;
+    script.onload = script.onreadystatechange = function() {
+      //console.log( this.readyState );
+      if ( !rState && (!this.readyState || this.readyState === 'complete') )
+      {
+        rState = true;
+        callback();
+      }
+    };
+    document.body.appendChild(script);
     return script;
-	}
+  };
 
   function createImage(event) {
     window.open(canvas.toDataUrl(), 'screen shot');
   }
 
-	// ******************************************************************************* fadein fadeout
+  // ******************************************************************************* fadein fadeout
 
-	function fadein(element, ms, callback) {
+  function fadein(element, ms, callback) {
 
-		var time = ms || 1000,
-			interv = setInterval(function() {
-			element.style.opacity = parseFloat(element.style.opacity) + 0.05;
-		}, time/20);
+    var time = ms || 1000,
+      interv = setInterval(function() {
+      element.style.opacity = parseFloat(element.style.opacity) + 0.05;
+    }, time/20);
 
-		setTimeout(function () {
-			clearInterval(interv);
-			element.style.opacity = 1;
+    setTimeout(function () {
+      clearInterval(interv);
+      element.style.opacity = 1;
 
-			if(callback) {
-				callback();
-			}
-		}, time);
-	}
+      if(callback) {
+        callback();
+      }
+    }, time);
+  }
 
-	function fadeout(element, ms, callback) {
+  function fadeout(element, ms, callback) {
 
-		var time = ms || 1000,
-			interv = setInterval(function() {
-			element.style.opacity = parseFloat(element.style.opacity) - 0.05;
-		}, time/20);
+    var time = ms || 1000,
+      interv = setInterval(function() {
+      element.style.opacity = parseFloat(element.style.opacity) - 0.05;
+    }, time/20);
 
-		setTimeout(function () {
-			clearInterval(interv);
-			element.style.opacity = 0;
+    setTimeout(function () {
+      clearInterval(interv);
+      element.style.opacity = 0;
 
-			if(callback) {
-				callback();
-			}
-		}, time);
-	}
+      if(callback) {
+        callback();
+      }
+    }, time);
+  }
 
-	// ******************************************************************************* Experiment
+  // ******************************************************************************* Experiment
 
-	function Experiment(name) {
+  function Experiment(name) {
 
-		var script, canvas = null;
+    var script, canvas = null;
 
-		this.name = name;
+    this.name = name;
 
-		this.kill = function() {
+    this.kill = function() {
 
-			//fade canvas out
-			fadeout(canvas, 1000, function() {
-				document.body.removeChild(canvas);
+      //fade canvas out
+      fadeout(canvas, 1000, function() {
+        document.body.removeChild(canvas);
         document.body.removeChild(script);
-			});
+      });
 
-			//display loading
-			loading.style.visibility = 'visible';
-		};
+      //display loading
+      loading.style.visibility = 'visible';
+    };
 
-		function createCanvas () {
-			var header = document.getElementsByTagName('header');
+    function createCanvas () {
+      var header = document.getElementsByTagName('header');
 
-			canvas = document.createElement("canvas");
-			canvas.id = "playfield";
-			document.body.insertBefore(canvas, header[0]);
+      canvas = document.createElement("canvas");
+      canvas.id = "playfield";
+      document.body.insertBefore(canvas, header[0]);
 
-			canvas.style.opacity = 0;	
-			canvas.width = document.body.clientWidth;
-			canvas.height = document.body.clientHeight;
-		}
+      canvas.style.opacity = 0;
+      canvas.width = document.body.clientWidth;
+      canvas.height = document.body.clientHeight;
+    }
 
-		function load() {
+    function load() {
 
-			createCanvas();
+      createCanvas();
 
       script = loadScript('javascripts/' + name + '.js', function() {
         //when done loading
         setTimeout(function() {
           var func = self[name];
           func(canvas);
-          
-          fadein(canvas); 
+          fadein(canvas);
           loading.style.visibility = 'hidden';
         }, 100);
-        
       });
-		}
+    }
 
-		load();
-	}
+    load();
+  }
 
-	// ******************************************************************************* experimentManager
+  // ******************************************************************************* experimentManager
 
-	experimentManager = {
+  experimentManager = {
 
-		currentExperiment: null,
+    currentExperiment: null,
 
-		loadnewproject: function(name) {
+    loadnewproject: function(name) {
 
-			if (this.currentExperiment !== null) {
-				this.currentExperiment.kill();
-			}
+      if (this.currentExperiment !== null) {
+        this.currentExperiment.kill();
+      }
 
-			this.currentExperiment = new Experiment(name);
-		}
-	};
+      this.currentExperiment = new Experiment(name);
+    }
+  };
 
-	// ******************************************************************************* window.onload
-	window.onload = function () {
+  // ******************************************************************************* window.onload
+  window.onload = function () {
 
-		var i,
-			navigations = document.getElementsByClassName("entries"), navigation = navigations[0], 
-			links = document.anchors;
+    var i,
+      navigations = document.getElementsByClassName("entries"), navigation = navigations[0],
+      links = document.anchors;
 
-		// set global
-		loading = document.getElementById('loading');
+    // set global
+    loading = document.getElementById('loading');
 
-		for(i = 0; i < links.length; i += 1) {
+    for(i = 0; i < links.length; i += 1) {
 
-			links[i].onclick = function(event) {
-				var i;
+      links[i].onclick = function(event) {
+        var i;
 
-				event.preventDefault();
+        event.preventDefault();
 
-				for(i = 0; i < links.length; i += 1) {
-					links[i].firstChild.className = ''; //delete active class from img
-				}
-				event.target.className += 'active';
+        for(i = 0; i < links.length; i += 1) {
+          links[i].firstChild.className = ''; //delete active class from img
+        }
+        event.target.className += 'active';
 
-				experimentManager.loadnewproject(event.currentTarget.name);
-			};
-		}
+        experimentManager.loadnewproject(event.currentTarget.name);
+      };
+    }
 
-		loading.style.visibility = 'visible';
+    loading.style.visibility = 'visible';
 
     //activate newest entry with fake event object
-		links[0].onclick({preventDefault: function() {}, currentTarget: links[0], target: links[0].firstChild });
+    links[0].onclick({preventDefault: function() {}, currentTarget: links[0], target: links[0].firstChild });
 
-		if (!isTouchDevice()) {
+    if (!isTouchDevice()) {
       //slide up navigation and activate hover state
       setTimeout(function() {
         navigation.className = navigation.className + " hoverDownUp";
@@ -220,5 +218,5 @@
         }
       };
     }
-	};
+  };
 }(this));
