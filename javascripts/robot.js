@@ -14,7 +14,6 @@ robot = function (canvas) {
     createRobot();
     drawHelpers();
     addToDOM();
-    setupGui();
     animate();
   });
 
@@ -30,6 +29,8 @@ robot = function (canvas) {
   // defines cylinder resolution
   var segments = 32;
 
+  // global robot parts
+  var head, leftArm, leftLowerArm, leftHand, rightArm, rightLowerArm, rightHand;
 
 
 
@@ -174,23 +175,23 @@ robot = function (canvas) {
     cube.position.z = 0;
     body.add(cube);
 
-    cube = bodyShieldMesh( lightGreyMaterial, 50, mainBodyHeight-5, 5, 2 );
+    cube = bodyShieldMesh( lightGreyMaterial, 50, mainBodyHeight-8, 5, 3 );
     cube.position.x = -80/2;
-    cube.position.y = bodyCenter - (mainBodyHeight-5)/2;
+    cube.position.y = bodyCenter - (mainBodyHeight-8)/2;
     cube.position.z = -51;
     cube.rotation = new THREE.Vector3( 0, 0, 90*Math.PI/180);
     body.add(cube);
 
-    cube = bodyShieldMesh( lightGreyMaterial, 50, mainBodyHeight-5, 5, 2, 'mirror');
+    cube = bodyShieldMesh( lightGreyMaterial, 50, mainBodyHeight-8, 5, 2, 'mirror');
     cube.position.x = -80/2;
-    cube.position.y = bodyCenter - (mainBodyHeight-5)/2;
+    cube.position.y = bodyCenter - (mainBodyHeight-8)/2;
     cube.position.z = 51;
     cube.rotation = new THREE.Vector3( 0, 0, 90*Math.PI/180);
     body.add(cube);
 
     // belly
     var belly = new THREE.Object3D();
-    var bellyRadius = 20;
+    var bellyRadius = 23;
     var bellyDepth = 1;
 
     cylinder = new THREE.Mesh( new THREE.CylinderGeometry( bellyRadius, bellyRadius, bellyDepth, segments, segments ),
@@ -218,7 +219,7 @@ robot = function (canvas) {
     // ************************************************************************************************************** HEAD
     // **************************************************************************************************************
 
-    var head = new THREE.Object3D();
+    head = new THREE.Object3D();
     var headHeight = 63;
     var headWidth = 85;
 
@@ -356,12 +357,111 @@ robot = function (canvas) {
     mouth.rotation = new THREE.Vector3( 0, 0, 90*Math.PI/180);
     head.add( mouth );
 
+
     // **************************************************************************************************************
     // **************************************************************************************************************
     // ************************************************************************************************************** ARMS
     // **************************************************************************************************************
 
+    var armHeight = bodyHeight - 30;
+    var armLen = 60;
 
+    // left
+    leftArm = new THREE.Object3D();
+    leftArm.position.x = 0;
+    leftArm.position.y = armHeight;
+    leftArm.position.z = 55;
+
+    armGeom = [];
+    armGeom[0] = new THREE.CylinderGeometry( 20, 20, 15, segments, segments);
+    cylinder = new THREE.Mesh( armGeom[0], lightGreyMaterial );
+    cylinder.position.z = 15/2;
+    cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
+    leftArm.add(cylinder);
+
+    armGeom[1] = new THREE.CylinderGeometry( 18, 18, 2, segments, segments);
+    cylinder = new THREE.Mesh( armGeom[1], lightGreyMaterial );
+    cylinder.position.z = 16;
+    cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
+    leftArm.add(cylinder);
+
+    armGeom[2] = new THREE.CubeGeometry( armLen, 15, 12, 1, 1 );
+    cube = new THREE.Mesh( armGeom[2], lightGreyMaterial );
+    cube.position.x = -armLen/2;
+    cube.position.z = 15/2;
+    leftArm.add(cube);
+
+    armGeom[3] = new THREE.CylinderGeometry( 8, 8, 16, segments, segments);
+    cylinder = new THREE.Mesh( armGeom[3], lightGreyMaterial );
+    cylinder.position.x = -armLen;
+    cylinder.position.z = 15/2;
+    cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
+    leftArm.add(cylinder);
+
+    leftLowerArm = new THREE.Object3D();
+    armGeom[4] = new THREE.CubeGeometry( armLen, 12, 12, 1, 1 );
+    cube = new THREE.Mesh( armGeom[4], lightGreyMaterial );
+    cube.position.x = -armLen/2;
+    leftLowerArm.position.x = -armLen;
+    leftLowerArm.position.z = 15/2;
+    leftLowerArm.add(cube);
+
+    leftHand = new THREE.Object3D();
+    armGeom[5] =  new THREE.TubeGeometry( 12.5, 12.5, 9, 9, 20, segments, segments, 300*Math.PI/180, 290*Math.PI/180);
+    //armGeom[5] = new THREE.CylinderGeometry( 12, 12, 20, segments, segments);
+    cylinder = new THREE.Mesh( armGeom[5], lightGreyMaterial );
+    cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
+    leftHand.position.x = -armLen - 10;
+    leftHand.add(cylinder);
+
+    leftLowerArm.add(leftHand);
+
+    leftArm.add(leftLowerArm);
+
+
+    // right
+    rightArm = new THREE.Object3D();
+    rightArm.position.x = 0;
+    rightArm.position.y = armHeight;
+    rightArm.position.z = -55;
+
+    cylinder = new THREE.Mesh( armGeom[0], lightGreyMaterial );
+    cylinder.position.z = 15/2;
+    cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
+    rightArm.add(cylinder);
+
+    cylinder = new THREE.Mesh( armGeom[1], lightGreyMaterial );
+    cylinder.position.z = 16;
+    cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
+    rightArm.add(cylinder);
+
+    cube = new THREE.Mesh( armGeom[2], lightGreyMaterial );
+    cube.position.x = -armLen/2;
+    cube.position.z = 15/2;
+    rightArm.add(cube);
+
+    cylinder = new THREE.Mesh( armGeom[3], lightGreyMaterial );
+    cylinder.position.x = -armLen;
+    cylinder.position.z = 15/2;
+    cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
+    rightArm.add(cylinder);
+
+    rightLowerArm = new THREE.Object3D();
+    cube = new THREE.Mesh( armGeom[4], lightGreyMaterial );
+    cube.position.x = -armLen/2;
+    rightLowerArm.position.x = -armLen;
+    rightLowerArm.position.z = 15/2;
+    rightLowerArm.add(cube);
+
+    rightHand = new THREE.Object3D();
+    cylinder = new THREE.Mesh( armGeom[5], lightGreyMaterial );
+    cylinder.rotation = new THREE.Vector3( 90*Math.PI/180, 0, 0);
+    rightHand.position.x = -armLen -10;
+    rightHand.add(cylinder);
+
+    rightLowerArm.add(rightHand);
+
+    rightArm.add(rightLowerArm);
 
 
 
@@ -370,6 +470,8 @@ robot = function (canvas) {
     robot.add( rightLeg );
     robot.add( body );
     robot.add( head );
+    robot.add( leftArm );
+    robot.add( rightArm );
     scene.add( robot );
   }
 
@@ -652,39 +754,6 @@ robot = function (canvas) {
     var delta = clock.getDelta();
     cameraControls.update(delta);
 
-    if ( effectController.newGridX !== gridX || effectController.newGridY !== gridY ||
-         effectController.newGridZ !== gridZ || effectController.newGround !== ground ||
-         effectController.newAxes !== axes)
-    {
-      gridX = effectController.newGridX;
-      gridY = effectController.newGridY;
-      gridZ = effectController.newGridZ;
-      ground = effectController.newGround;
-      axes = effectController.newAxes;
-          fillScene();
-          createRobot();
-      drawHelpers();
-    }
     renderer.render(scene, camera);
-  }
-
-  function setupGui() {
-
-    effectController = {
-
-      newGridX: gridX,
-      newGridY: gridY,
-      newGridZ: gridZ,
-      newGround: ground,
-      newAxes: axes
-    };
-
-    var gui = new dat.GUI();
-    var h = gui.addFolder("Grid display");
-    h.add( effectController, "newGridX").name("Show XZ grid");
-    h.add( effectController, "newGridY" ).name("Show YZ grid");
-    h.add( effectController, "newGridZ" ).name("Show XY grid");
-    h.add( effectController, "newGround" ).name("Show ground");
-    h.add( effectController, "newAxes" ).name("Show axes");
   }
 };
