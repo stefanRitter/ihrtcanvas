@@ -9,17 +9,16 @@
 robot = function (canvas) {
   // load THREE
   loadScript('javascripts/three.min.js', function() {
-    init();
-    fillScene();
-    createRobot();
-    drawHelpers();
-    addToDOM();
-    animate();
+      init();
+      fillScene();
+      createRobot();
+      addToDOM();
+      animate();
   });
 
   var camera, scene, renderer;
-  var cameraControls, effectController;
-  var clock = new THREE.Clock();
+  var cameraControls;
+  var clock = null;
   var gridX = false;
   var gridY = false;
   var gridZ = false;
@@ -462,6 +461,7 @@ robot = function (canvas) {
     rightLowerArm.add(rightHand);
 
     rightArm.add(rightLowerArm);
+    rightArm.rotation = new THREE.Vector3( 0, Math.PI, Math.PI);
 
 
 
@@ -698,6 +698,8 @@ robot = function (canvas) {
   }
 
   function init() {
+    clock = new THREE.Clock();
+
     var canvasWidth = window.innerWidth; //846;
     var canvasHeight = window.innerHeight; //494;
     var canvasRatio = canvasWidth / canvasHeight;
@@ -719,30 +721,12 @@ robot = function (canvas) {
   }
 
   function addToDOM() {
-      var container = document.getElementById('container');
-      var canvas = container.getElementsByTagName('canvas');
-      if (canvas.length>0) {
-          container.removeChild(canvas[0]);
-      }
-      container.appendChild( renderer.domElement );
-  }
 
-  function drawHelpers() {
-    if (ground) {
-      Coordinates.drawGround({size:10000});
-    }
-    if (gridX) {
-      Coordinates.drawGrid({size:10000,scale:0.01});
-    }
-    if (gridY) {
-      Coordinates.drawGrid({size:10000,scale:0.01, orientation:"y"});
-    }
-    if (gridZ) {
-      Coordinates.drawGrid({size:10000,scale:0.01, orientation:"z"});
-    }
-    if (axes) {
-      Coordinates.drawAllAxes({axisLength:200,axisRadius:1,axisTess:50});
-    }
+    document.body.removeChild(canvas);
+
+    var header = document.getElementsByTagName('header');
+    renderer.domElement.id ='playfield';
+    document.body.insertBefore(renderer.domElement, header[0]);
   }
 
   function animate() {
