@@ -174,21 +174,21 @@ canvas {
   .entries {
     top: 0;
     right: 0;
-    -webkit-transform: rotate(90deg) translate(-4.4em, 4em);
-    -moz-transform: rotate(90deg) translate(-4.4em, 4em);
-    -ms-transform: rotate(90deg) translate(-4.4em, 4em);
-    -o-transform: rotate(90deg) translate(-4.4em, 4em);
-    transform: rotate(90deg) translate(-4.4em, 4em);
+    -webkit-transform: rotate(90deg) translate(-6em, 4em);
+    -moz-transform: rotate(90deg) translate(-6em, 4em);
+    -ms-transform: rotate(90deg) translate(-6em, 4em);
+    -o-transform: rotate(90deg) translate(-6em, 4em);
+    transform: rotate(90deg) translate(-6em, 4em);
   }
 }
 
 /* line 119, ../sass/application.sass */
 .clickUp, .hoverDownUp {
-  -webkit-transform: translate(0, -87%);
-  -moz-transform: translate(0, -87%);
-  -ms-transform: translate(0, -87%);
-  -o-transform: translate(0, -87%);
-  transform: translate(0, -87%);
+  -webkit-transform: translate(0, -90%);
+  -moz-transform: translate(0, -90%);
+  -ms-transform: translate(0, -90%);
+  -o-transform: translate(0, -90%);
+  transform: translate(0, -90%);
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
   -o-transition: all 0.2s ease-in-out;
@@ -197,11 +197,11 @@ canvas {
 @media screen and (max-width: 715px) {
   /* line 119, ../sass/application.sass */
   .clickUp, .hoverDownUp {
-    -webkit-transform: rotate(90deg) translate(-4.4em, -60%);
-    -moz-transform: rotate(90deg) translate(-4.4em, -60%);
-    -ms-transform: rotate(90deg) translate(-4.4em, -60%);
-    -o-transform: rotate(90deg) translate(-4.4em, -60%);
-    transform: rotate(90deg) translate(-4.4em, -60%);
+    -webkit-transform: rotate(90deg) translate(-6em, -58%);
+    -moz-transform: rotate(90deg) translate(-6em, -58%);
+    -ms-transform: rotate(90deg) translate(-6em, -58%);
+    -o-transform: rotate(90deg) translate(-6em, -58%);
+    transform: rotate(90deg) translate(-6em, -58%);
   }
 }
 
@@ -220,11 +220,11 @@ canvas {
 @media screen and (max-width: 715px) {
   /* line 126, ../sass/application.sass */
   .clickDown, .hoverDownUp:hover {
-    -webkit-transform: rotate(90deg) translate(-4.4em, 4em);
-    -moz-transform: rotate(90deg) translate(-4.4em, 4em);
-    -ms-transform: rotate(90deg) translate(-4.4em, 4em);
-    -o-transform: rotate(90deg) translate(-4.4em, 4em);
-    transform: rotate(90deg) translate(-4.4em, 4em);
+    -webkit-transform: rotate(90deg) translate(-6em, 4em);
+    -moz-transform: rotate(90deg) translate(-6em, 4em);
+    -ms-transform: rotate(90deg) translate(-6em, 4em);
+    -o-transform: rotate(90deg) translate(-6em, 4em);
+    transform: rotate(90deg) translate(-6em, 4em);
   }
 }
 
