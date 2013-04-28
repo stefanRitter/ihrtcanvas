@@ -7,14 +7,24 @@
  */
 
 robot = function (canvas) {
+  var fadeDone = false;
+
   // load THREE
   loadScript('javascripts/three.min.js', function() {
       init();
       fillScene();
       createRobot();
+
+      header = document.getElementsByTagName('header');
+      header[0].style.background = 'transparent';
+
       addToDOM();
       animate();
   });
+
+  setTimeout( function() {
+    fadeDone = true;
+  }, 1000);
 
   var camera, scene, renderer;
   var cameraControls;
@@ -30,6 +40,19 @@ robot = function (canvas) {
 
   // global robot parts
   var head, leftArm, leftLowerArm, leftHand, rightArm, rightLowerArm, rightHand;
+
+  // rotation animation
+  var anim = {
+    headRot: 0,
+
+    leftArm: -47,
+    leftLowerArm: -25,
+    leftHand: 70,
+
+    rightArm: 125,
+    rightLowerArm: 45,
+    rightHand: 22
+  };
 
 
 
@@ -730,14 +753,38 @@ robot = function (canvas) {
   }
 
   function animate() {
-    window.requestAnimationFrame(animate);
+    var req = window.requestAnimationFrame(animate);
+
+    head.rotation = new THREE.Vector3( 0, anim.headRot * Math.PI/180, 0);
+
+    leftArm.rotation = new THREE.Vector3( 0, 0, anim.leftArm * Math.PI/180);
+    leftLowerArm.rotation = new THREE.Vector3( 0, 0, anim.leftLowerArm * Math.PI/180);
+    leftHand.rotation = new THREE.Vector3( anim.leftHand * Math.PI/180, 0, 0 );
+
+    rightArm.rotation = new THREE.Vector3( 0, Math.PI, anim.rightArm * Math.PI/180);
+    rightLowerArm.rotation = new THREE.Vector3( 0, 0, anim.rightLowerArm * Math.PI/180);
+    rightHand.rotation = new THREE.Vector3( anim.rightHand * Math.PI/180, 0, 0 );
+
     render();
+
+    if (fadeDone && document.getElementsByTagName('canvas').length > 1) {
+      window.cancelAnimationFrame(req);
+
+      fadeout(renderer.domElement, 1000, function() {
+        document.body.removeChild(renderer.domElement);
+        camera = scene = renderer = cameraControls = null;
+      });
+    }
   }
 
   function render() {
     var delta = clock.getDelta();
     cameraControls.update(delta);
-
+    updateAnimation(delta);
     renderer.render(scene, camera);
+  }
+
+  function updateAnimation(deltaTime) {
+    return;
   }
 };

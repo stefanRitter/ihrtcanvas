@@ -66,11 +66,11 @@
 
   // ******************************************************************************* fadein fadeout
 
-  function fadein(element, ms, callback) {
+  window.fadein = function (element, ms, callback) {
 
     var time = ms || 1000,
       interv = setInterval(function() {
-      element.style.opacity = parseFloat(element.style.opacity) + 0.05;
+      element.style.opacity = parseFloat(element.style.opacity) + 0.06;
     }, time/20);
 
     setTimeout(function () {
@@ -80,14 +80,14 @@
       if(callback) {
         callback();
       }
-    }, time);
-  }
+    }, time+time/20);
+  };
 
-  function fadeout(element, ms, callback) {
+  window.fadeout = function(element, ms, callback) {
 
     var time = ms || 1000,
       interv = setInterval(function() {
-      element.style.opacity = parseFloat(element.style.opacity) - 0.05;
+      element.style.opacity = parseFloat(element.style.opacity) - 0.06;
     }, time/20);
 
     setTimeout(function () {
@@ -97,8 +97,8 @@
       if(callback) {
         callback();
       }
-    }, time);
-  }
+    }, time+time/20);
+  };
 
   // ******************************************************************************* Experiment
 
@@ -112,8 +112,12 @@
 
       //fade canvas out
       fadeout(canvas, 1000, function() {
-        document.body.removeChild(canvas);
-        document.body.removeChild(script);
+        try {
+          document.body.removeChild(canvas);
+        } catch (error) {}
+        try {
+          document.body.removeChild(script);
+        } catch (error) {}
       });
 
       //display loading
