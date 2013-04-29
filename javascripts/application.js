@@ -67,6 +67,7 @@
   // ******************************************************************************* fadein fadeout
 
   window.fadein = function (element, ms, callback) {
+    element.style.opacity = '0.0';
 
     var time = ms || 1000,
       interv = setInterval(function() {
@@ -84,6 +85,7 @@
   };
 
   window.fadeout = function(element, ms, callback) {
+    element.style.opacity = '1.0';
 
     var time = ms || 1000,
       interv = setInterval(function() {

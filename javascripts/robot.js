@@ -11,15 +11,29 @@ robot = function (canvas) {
 
   // load THREE
   loadScript('javascripts/three.min.js', function() {
+    try {
       init();
-      fillScene();
-      createRobot();
+    } catch (error) {
 
-      header = document.getElementsByTagName('header');
-      header[0].style.background = 'transparent';
+      var div = document.createElement('div');
+      div.innerHTML = 'Sorry, WebGL is not supported by your system. Please try with Firefox or Chrome for desktop';
+      div.className = 'warning';
+      document.body.insertBefore(div, document.getElementsByTagName('footer')[0]);
 
-      addToDOM();
-      animate();
+      setTimeout(function() {
+        fadeout(div, 5000, function() {
+          document.body.removeChild(div);
+        });
+      }, 1000);
+
+      return;
+    }
+
+    fillScene();
+    createRobot();
+
+    addToDOM();
+    animate();
   });
 
   setTimeout( function() {
@@ -736,11 +750,11 @@ robot = function (canvas) {
 
     // CAMERA
     camera = new THREE.PerspectiveCamera( 40, canvasRatio, 1, 10000 );
-    camera.position.set( -384, 758, -492 );
+    camera.position.set( -747, 220, -195 );
+
     // CONTROLS
     cameraControls = new THREE.OrbitAndPanControls(camera, renderer.domElement);
-    cameraControls.target.set(0,100,0);
-
+    cameraControls.target.set(25,163,50);
   }
 
   function addToDOM() {
@@ -748,6 +762,7 @@ robot = function (canvas) {
     document.body.removeChild(canvas);
 
     var header = document.getElementsByTagName('header');
+    header[0].style.background = 'transparent';
     renderer.domElement.id ='playfield';
     document.body.insertBefore(renderer.domElement, header[0]);
   }
@@ -784,7 +799,28 @@ robot = function (canvas) {
     renderer.render(scene, camera);
   }
 
+  var animDelta = 0.5;
+
+  var stateTime = 0;
   function updateAnimation(deltaTime) {
+    stateTime += deltaTime;
+    if (stateTime > 0.1) {
+      anim.headRot += animDelta;
+
+      anim.leftArm += animDelta;
+      //anim.leftLowerArm += animDelta;
+      anim.leftHand += animDelta;
+
+      anim.rightArm += animDelta;
+      anim.rightLowerArm += animDelta;
+      anim.rightHand += animDelta;
+
+      if (anim.headRot > 45 || anim.headRot < -30) {
+        animDelta *= -1;
+      }
+
+      stateTime = 0;
+    }
     return;
   }
 };
