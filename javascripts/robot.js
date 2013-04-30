@@ -765,6 +765,17 @@ robot = function (canvas) {
     header[0].style.background = 'transparent';
     renderer.domElement.id ='playfield';
     document.body.insertBefore(renderer.domElement, header[0]);
+
+    var div = document.createElement('div');
+    div.innerHTML = 'Use the left and right mouse button to rotate and pan, scroll to zoom in and out';
+    div.className = 'warning';
+    document.body.insertBefore(div, document.getElementsByTagName('footer')[0]);
+
+    setTimeout(function() {
+      fadeout(div, 5000, function() {
+        document.body.removeChild(div);
+      });
+    }, 1000);
   }
 
   function animate() {
