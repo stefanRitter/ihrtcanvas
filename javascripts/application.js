@@ -183,7 +183,8 @@
     loading = document.getElementById('loading');
 
     for(i = 0; i < links.length; i += 1) {
-
+      if (i === 1) continue; // skip creamy
+      
       links[i].onclick = function(event) {
         var i;
 
